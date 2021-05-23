@@ -3,18 +3,18 @@ import "google/protobuf/timestamp.proto";
 
 // 유저가 작성한 글
 message Article {
-    // 고유식별자
-    int64 id = 1;
-    // 글의 제목 
-    string title = 2;
-    // 글의 내용 
-    string content = 3;
-    // 글의 요약 
-    string summary = 4;
-    // 글의 저자 
-    string author_name = 5;
-    // 최초로 만들어진 날짜 
-    google.protobuf.Timestamp created_time = 6;
-    // 마지막으로 수정된 날짜
-    google.protobuf.Timestamp updated_time = 7;
+  // 고유식별자
+  int64 id = 1;
+  // 글의 제목 
+  string title = 2;
+  // 글의 내용 
+  string content = 3;
+  // 글의 요약 
+  string summary = 4;
+  // 글의 저자 
+  string author_name = 5;
+  // 최초로 만들어진 날짜 
+  google.protobuf.Timestamp created_time = 6;
+  // 마지막으로 수정된 날짜
+  google.protobuf.Timestamp updated_time = 7;
 }
