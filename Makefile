@@ -8,4 +8,4 @@ generate:
 
 .PHONY: lint
 lint:
-	protolint lint -fix protos
+	docker run --volume "$(pwd):/protos" --workdir /protos yoheimuta/protolint lint -fix .
