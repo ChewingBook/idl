@@ -1,6 +1,7 @@
 
 .PHONY: generate
 generate:
+	make lint
 	rm -rf gen
 	mkdir gen
 	mkdir gen/typescript
@@ -8,4 +9,4 @@ generate:
 
 .PHONY: lint
 lint:
-	docker run --volume "$(pwd):/protos" --workdir /protos yoheimuta/protolint lint -fix .
+	./scripts/lint.sh
