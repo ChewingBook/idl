@@ -28,9 +28,14 @@ jobs:
       # Runs a single command using the runners shell
       - name: make
         run: make go
+      - name: Push Go files to idl-go
+        uses: cpina/github-action-push-to-another-repository@v1.3
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'gen/go'
+          destination-github-username: 'ChewingBook'
+          destination-repository-name: 'idl-go'
+          user-email: dev.esung@gmail.com
+          target-branch: main
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
