@@ -1,11 +1,11 @@
 
-.PHONY: generate
-generate:
-	make lint
-	rm -rf gen
-	mkdir gen
-	mkdir gen/typescript
-	./scripts/generate.sh
+.PHONY: typescript
+typescript:
+	./scripts/generate-typescript.sh
+
+.PHONY: go
+go:
+	./scripts/generate-go.sh
 
 .PHONY: lint
 lint:
