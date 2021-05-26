@@ -1,4 +1,8 @@
 
+.PHONY: all
+all:
+	make go && make typescript
+
 .PHONY: typescript
 typescript:
 	./scripts/generate-typescript.sh
