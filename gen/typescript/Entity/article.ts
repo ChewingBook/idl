@@ -1,9 +1,15 @@
 /* eslint-disable */
-import { util, configure, Writer, Reader } from "protobufjs/minimal";
+import { util, configure, Reader, Writer } from "protobufjs/minimal";
 import * as Long from "long";
 import { Timestamp } from "../google/protobuf/timestamp";
 
 export const protobufPackage = "";
+
+export interface ListArticlesRequest {}
+
+export interface ListArticlesResponse {
+  articles: Article[];
+}
 
 /** 유저가 작성한 글 */
 export interface Article {
@@ -22,6 +28,111 @@ export interface Article {
   /** 마지막으로 수정된 날짜 */
   updatedTime: Date | undefined;
 }
+
+const baseListArticlesRequest: object = {};
+
+export const ListArticlesRequest = {
+  encode(_: ListArticlesRequest, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): ListArticlesRequest {
+    const reader = input instanceof Reader ? input : new Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseListArticlesRequest } as ListArticlesRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): ListArticlesRequest {
+    const message = { ...baseListArticlesRequest } as ListArticlesRequest;
+    return message;
+  },
+
+  toJSON(_: ListArticlesRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(_: DeepPartial<ListArticlesRequest>): ListArticlesRequest {
+    const message = { ...baseListArticlesRequest } as ListArticlesRequest;
+    return message;
+  },
+};
+
+const baseListArticlesResponse: object = {};
+
+export const ListArticlesResponse = {
+  encode(
+    message: ListArticlesResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.articles) {
+      Article.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): ListArticlesResponse {
+    const reader = input instanceof Reader ? input : new Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseListArticlesResponse } as ListArticlesResponse;
+    message.articles = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.articles.push(Article.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): ListArticlesResponse {
+    const message = { ...baseListArticlesResponse } as ListArticlesResponse;
+    message.articles = [];
+    if (object.articles !== undefined && object.articles !== null) {
+      for (const e of object.articles) {
+        message.articles.push(Article.fromJSON(e));
+      }
+    }
+    return message;
+  },
+
+  toJSON(message: ListArticlesResponse): unknown {
+    const obj: any = {};
+    if (message.articles) {
+      obj.articles = message.articles.map((e) =>
+        e ? Article.toJSON(e) : undefined
+      );
+    } else {
+      obj.articles = [];
+    }
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<ListArticlesResponse>): ListArticlesResponse {
+    const message = { ...baseListArticlesResponse } as ListArticlesResponse;
+    message.articles = [];
+    if (object.articles !== undefined && object.articles !== null) {
+      for (const e of object.articles) {
+        message.articles.push(Article.fromPartial(e));
+      }
+    }
+    return message;
+  },
+};
 
 const baseArticle: object = {
   id: 0,
@@ -197,6 +308,32 @@ export const Article = {
     return message;
   },
 };
+
+export interface ArticleService {
+  ListArticles(request: ListArticlesRequest): Promise<ListArticlesResponse>;
+}
+
+export class ArticleServiceClientImpl implements ArticleService {
+  private readonly rpc: Rpc;
+  constructor(rpc: Rpc) {
+    this.rpc = rpc;
+  }
+  ListArticles(request: ListArticlesRequest): Promise<ListArticlesResponse> {
+    const data = ListArticlesRequest.encode(request).finish();
+    const promise = this.rpc.request("ArticleService", "ListArticles", data);
+    return promise.then((data) =>
+      ListArticlesResponse.decode(new Reader(data))
+    );
+  }
+}
+
+interface Rpc {
+  request(
+    service: string,
+    method: string,
+    data: Uint8Array
+  ): Promise<Uint8Array>;
+}
 
 declare var self: any | undefined;
 declare var window: any | undefined;
