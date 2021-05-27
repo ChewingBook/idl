@@ -2,6 +2,16 @@ syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 option go_package = "chewingbook.com/v1";
 
+service ArticleService {
+    rpc ListArticles (ListArticlesRequest) returns (ListArticlesResponse);
+}
+
+message ListArticlesRequest {}
+
+message ListArticlesResponse {
+    repeated Article articles = 1;
+}
+
 // 유저가 작성한 글
 message Article {
   // 고유식별자
