@@ -2,7 +2,12 @@
 
 set -e
 
-IDL_PATH=/go/src/github.com/ChewingBook/idl
+IDL_PATH=$(pwd)
+
+if [[ -z "$PROTOS" ]]; then
+  PROTOS=$(find ./protos -name '*.proto')
+fi
+
 
 gen_typescript() {
   npm install ts-proto@1.79.8
@@ -11,7 +16,6 @@ gen_typescript() {
     echo "[TYPESCRIPT] $FILE"
     protoc \
       -I$IDL_PATH/protos \
-      -I/go/src \
       --plugin=protoc-gen-grpc=/usr/bin/protoc-gen-grpc-js \
       --plugin=./node_modules/.bin/protoc-gen-ts_proto \
       --ts_proto_out=gen/typescript \
@@ -26,11 +30,8 @@ gen_go() {
     echo "[GO] $FILE"
     protoc \
       -I$IDL_PATH/protos \
-      -I/go/src \
-      --go_out=plugins=grpc:/go/src/ \
-	  --go_out=$(pwd)/gen/go \
-      --grpc-gateway_out=logtostderr=true:/go/src/ \
-      "$IDL_PATH${FILE#.}"
+	  --go_out=$IDL_PATH/gen/go\
+	  "$IDL_PATH${FILE#.}"
   done
 }
 
