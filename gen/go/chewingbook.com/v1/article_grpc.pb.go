@@ -14,86 +14,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// ArticleServiceClient is the client API for ArticleService service.
+// ArticlesClient is the client API for Articles service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type ArticleServiceClient interface {
+type ArticlesClient interface {
 	ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesResponse, error)
 }
 
-type articleServiceClient struct {
+type articlesClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewArticleServiceClient(cc grpc.ClientConnInterface) ArticleServiceClient {
-	return &articleServiceClient{cc}
+func NewArticlesClient(cc grpc.ClientConnInterface) ArticlesClient {
+	return &articlesClient{cc}
 }
 
-func (c *articleServiceClient) ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesResponse, error) {
+func (c *articlesClient) ListArticles(ctx context.Context, in *ListArticlesRequest, opts ...grpc.CallOption) (*ListArticlesResponse, error) {
 	out := new(ListArticlesResponse)
-	err := c.cc.Invoke(ctx, "/ArticleService/ListArticles", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Articles/ListArticles", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ArticleServiceServer is the server API for ArticleService service.
-// All implementations must embed UnimplementedArticleServiceServer
+// ArticlesServer is the server API for Articles service.
+// All implementations must embed UnimplementedArticlesServer
 // for forward compatibility
-type ArticleServiceServer interface {
+type ArticlesServer interface {
 	ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error)
-	mustEmbedUnimplementedArticleServiceServer()
+	mustEmbedUnimplementedArticlesServer()
 }
 
-// UnimplementedArticleServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedArticleServiceServer struct {
+// UnimplementedArticlesServer must be embedded to have forward compatible implementations.
+type UnimplementedArticlesServer struct {
 }
 
-func (UnimplementedArticleServiceServer) ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error) {
+func (UnimplementedArticlesServer) ListArticles(context.Context, *ListArticlesRequest) (*ListArticlesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListArticles not implemented")
 }
-func (UnimplementedArticleServiceServer) mustEmbedUnimplementedArticleServiceServer() {}
+func (UnimplementedArticlesServer) mustEmbedUnimplementedArticlesServer() {}
 
-// UnsafeArticleServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to ArticleServiceServer will
+// UnsafeArticlesServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to ArticlesServer will
 // result in compilation errors.
-type UnsafeArticleServiceServer interface {
-	mustEmbedUnimplementedArticleServiceServer()
+type UnsafeArticlesServer interface {
+	mustEmbedUnimplementedArticlesServer()
 }
 
-func RegisterArticleServiceServer(s grpc.ServiceRegistrar, srv ArticleServiceServer) {
-	s.RegisterService(&ArticleService_ServiceDesc, srv)
+func RegisterArticlesServer(s grpc.ServiceRegistrar, srv ArticlesServer) {
+	s.RegisterService(&Articles_ServiceDesc, srv)
 }
 
-func _ArticleService_ListArticles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Articles_ListArticles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListArticlesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(ArticleServiceServer).ListArticles(ctx, in)
+		return srv.(ArticlesServer).ListArticles(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ArticleService/ListArticles",
+		FullMethod: "/Articles/ListArticles",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ArticleServiceServer).ListArticles(ctx, req.(*ListArticlesRequest))
+		return srv.(ArticlesServer).ListArticles(ctx, req.(*ListArticlesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// ArticleService_ServiceDesc is the grpc.ServiceDesc for ArticleService service.
+// Articles_ServiceDesc is the grpc.ServiceDesc for Articles service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var ArticleService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "ArticleService",
-	HandlerType: (*ArticleServiceServer)(nil),
+var Articles_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "Articles",
+	HandlerType: (*ArticlesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "ListArticles",
-			Handler:    _ArticleService_ListArticles_Handler,
+			Handler:    _Articles_ListArticles_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

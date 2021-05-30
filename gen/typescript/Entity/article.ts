@@ -309,18 +309,18 @@ export const Article = {
   },
 };
 
-export interface ArticleService {
+export interface Articles {
   ListArticles(request: ListArticlesRequest): Promise<ListArticlesResponse>;
 }
 
-export class ArticleServiceClientImpl implements ArticleService {
+export class ArticlesClientImpl implements Articles {
   private readonly rpc: Rpc;
   constructor(rpc: Rpc) {
     this.rpc = rpc;
   }
   ListArticles(request: ListArticlesRequest): Promise<ListArticlesResponse> {
     const data = ListArticlesRequest.encode(request).finish();
-    const promise = this.rpc.request("ArticleService", "ListArticles", data);
+    const promise = this.rpc.request("Articles", "ListArticles", data);
     return promise.then((data) =>
       ListArticlesResponse.decode(new Reader(data))
     );
