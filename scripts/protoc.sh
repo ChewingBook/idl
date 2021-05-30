@@ -31,7 +31,9 @@ gen_go() {
     protoc \
       -I$IDL_PATH/protos \
 	  --go_out=$IDL_PATH/gen/go\
+	  --go_opt=paths=source_relative\
 	  --go-grpc_out=$IDL_PATH/gen/go\
+	  --go-grpc_opt=paths=source_relative\
 	  "$IDL_PATH${FILE#.}"
   done
 }
