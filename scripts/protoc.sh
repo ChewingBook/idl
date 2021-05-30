@@ -31,6 +31,7 @@ gen_go() {
     protoc \
       -I$IDL_PATH/protos \
 	  --go_out=$IDL_PATH/gen/go\
+	  --go-grpc_out=$IDL_PATH/gen/go\
 	  "$IDL_PATH${FILE#.}"
   done
 }
