@@ -1,6 +1,7 @@
 {
   "name": "@chewingbook/idl",
   "description": "ChewingBook IDL",
+  "version": "0.0.2",
   "homepage": "https://github.com/ChewingBook/idl",
   "repository": {
     "type": "git",
