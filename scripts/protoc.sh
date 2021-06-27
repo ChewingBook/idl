@@ -10,7 +10,7 @@ fi
 
 
 gen_typescript() {
-  npm install ts-proto@1.79.8
+  npm install ts-proto@1.81.3
   mkdir -p "$IDL_PATH/gen/typescript/"
   for FILE in $PROTOS; do
     echo "[TYPESCRIPT] $FILE"

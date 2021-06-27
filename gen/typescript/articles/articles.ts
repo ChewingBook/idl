@@ -317,6 +317,7 @@ export class ArticlesClientImpl implements Articles {
   private readonly rpc: Rpc;
   constructor(rpc: Rpc) {
     this.rpc = rpc;
+    this.ListArticles = this.ListArticles.bind(this);
   }
   ListArticles(request: ListArticlesRequest): Promise<ListArticlesResponse> {
     const data = ListArticlesRequest.encode(request).finish();
