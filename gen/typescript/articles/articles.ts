@@ -27,6 +27,8 @@ export interface Article {
   createdTime: Date | undefined;
   /** 마지막으로 수정된 날짜 */
   updatedTime: Date | undefined;
+  /** 글을 볼 수 있는 웹페이지 주소 */
+  url: string;
 }
 
 const baseListArticlesRequest: object = {};
@@ -140,6 +142,7 @@ const baseArticle: object = {
   content: "",
   summary: "",
   authorName: "",
+  url: "",
 };
 
 export const Article = {
@@ -170,6 +173,9 @@ export const Article = {
         toTimestamp(message.updatedTime),
         writer.uint32(58).fork()
       ).ldelim();
+    }
+    if (message.url !== "") {
+      writer.uint32(66).string(message.url);
     }
     return writer;
   },
@@ -205,6 +211,9 @@ export const Article = {
           message.updatedTime = fromTimestamp(
             Timestamp.decode(reader, reader.uint32())
           );
+          break;
+        case 8:
+          message.url = reader.string();
           break;
         default:
           reader.skipType(tag & 7);
@@ -251,6 +260,11 @@ export const Article = {
     } else {
       message.updatedTime = undefined;
     }
+    if (object.url !== undefined && object.url !== null) {
+      message.url = String(object.url);
+    } else {
+      message.url = "";
+    }
     return message;
   },
 
@@ -265,6 +279,7 @@ export const Article = {
       (obj.createdTime = message.createdTime.toISOString());
     message.updatedTime !== undefined &&
       (obj.updatedTime = message.updatedTime.toISOString());
+    message.url !== undefined && (obj.url = message.url);
     return obj;
   },
 
@@ -304,6 +319,11 @@ export const Article = {
       message.updatedTime = object.updatedTime;
     } else {
       message.updatedTime = undefined;
+    }
+    if (object.url !== undefined && object.url !== null) {
+      message.url = object.url;
+    } else {
+      message.url = "";
     }
     return message;
   },
