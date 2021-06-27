@@ -12,6 +12,7 @@ publish:
 	cd gen/typescript
 	npm publish
 	cd ../../
+	git stash
 .PHONY: go
 go:
 	./scripts/generate-go.sh
