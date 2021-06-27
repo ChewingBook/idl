@@ -11,8 +11,7 @@ publish:
 	cp scripts/typescript/package* gen/typescript/
 	cd ./gen/typescript
 	npm publish
-	cd ../../
-	git stash
+	rm gen/typescript/package*
 .PHONY: go
 go:
 	./scripts/generate-go.sh
