@@ -9,7 +9,7 @@ typescript:
 .PHONY: publish
 publish:
 	cp scripts/typescript/package* gen/typescript/
-	cd gen/typescript
+	cd ./gen/typescript
 	npm publish
 	cd ../../
 	git stash
