@@ -28,4 +28,6 @@ message Article {
   google.protobuf.Timestamp created_time = 6;
   // 마지막으로 수정된 날짜
   google.protobuf.Timestamp updated_time = 7;
+  // 글을 볼 수 있는 웹페이지 주소 
+  string url = 8;
 }
